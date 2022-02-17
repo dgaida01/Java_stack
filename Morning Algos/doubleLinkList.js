@@ -59,18 +59,41 @@ class DLL{
         }
 
         removeFromBack(){
-            let newBack = this.tail.prev;
-            this.tail=null;
-            this.tail=newBack;
-            this.tail.next=null;
+            if(this.tail==null){
+                return
+            }
+            if(this.head==this.tail){
+                this.head=null;
+                this.tail=null;
+                return;
+            }
+            else{
+                let newBack = this.tail.prev;
+                // this.tail=null;
+                this.tail=newBack;
+                this.tail.next=null;
+            }
+            
 
         }
 
         removeFromFront(){
-            let newHead = this.head.next;
-            this.head=null;
-            this.head=newHead;
-            this.head.prev=null;
+
+            if(this.head==null){
+                return
+            }
+            if(this.head==this.tail){
+                this.head=null;
+                this.tail=null;
+                return;
+            }
+            else{
+                let newHead = this.head.next;
+                // this.head=null;
+                this.head=newHead;
+                this.head.prev=null;
+            }
+            
 
 
         }
@@ -78,8 +101,8 @@ class DLL{
 
 mylist = new DLL();
 
-mylist.addToBack(10).addToBack(20).addToBack(30);
-mylist.addToFront(9).addToFront(7);
+// mylist.addToBack(10).addToBack(20).addToBack(30);
+mylist.addToFront(9)
 mylist.removeFromBack();
 mylist.removeFromFront();
 mylist.display();
