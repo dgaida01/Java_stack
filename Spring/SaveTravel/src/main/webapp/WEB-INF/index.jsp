@@ -24,28 +24,37 @@ pageEncoding="UTF-8" %>
 
 <body>
     <div class="container">
-		<h1 style="color: #1a1acc" class="ms-4">Safe Travels</h1>
-
-		<table class="table" style="width: 400px">
+		<h1 style="color: #1a1acc" class="ms-4">Save Travels</h1>
+		<div class="overflow-auto" style="height:200px ; width:600px"> 
+		<table class="table" style="width: 580px">
         	<thead>
         		<tr>
 					<th scope="col">#</th>
 					<th scope="col">Expense</th>
 					<th scope="col">Vendor</th>
 					<th scope="col">Amount</th>
+					<th scope="col">Action</th>
         		</tr>
         	</thead>
 			<tbody>
 			<c:forEach items="${allExp}" var="anExp" varStatus="loop">
 				<tr>
 					<th scope="row">${loop.index+1}</th>
-					<td>${anExp.expenseName}</td>
+					<td><a href="/expense/${anExp.id}">${anExp.expenseName}</a> </td>
 					<td>${anExp.vendor}</td>
 					<td>${anExp.amount}</td>
+					<form action="/del/${anExp.id}" method="post">
+						<input type="hidden" name="_method" value="delete">
+						<td>
+							<a href="/edit/${anExp.id}">Edit</a> 						
+							<button type="submit" class="btn btn-danger align-content-center text-center ms-3" style="height: 23px;width: 40px; font-size: small; padding: 0pt; border-color: black;">Delete</button>
+						</td>
+					</form>
 				</tr>
 			</c:forEach>
 			</tbody>
     	</table>
+	</div>
     	<h1 style="color: #1a1acc" class="ms-2">Add an expense</h1>
     	<form:form action="/addExpense" method="post" modelAttribute="exp" >
 			<form:errors path="expenseName" class="text-danger" />

@@ -1,6 +1,7 @@
 package com.gaida.savetravel.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,19 @@ public class ExpenseService{
 			this.expRepo.save(expObj);
 		}
 		
+		public Expense findByID(long id) {
+			return this.expRepo.findById(id).orElse(null);
+		}
 		
+		
+		public Expense updateExpense(Expense expObj) {
+			return this.expRepo.save(expObj);
+						
+		}
+		
+		public void deleteExpense(long id) {
+			this.expRepo.deleteById(id);
+		}
 		
 		
 }

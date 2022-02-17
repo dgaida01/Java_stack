@@ -1,0 +1,9 @@
+@charset "ISO-8859-1";
+
+.filter-blue{
+      filter: invert(11%) sepia(91%) saturate(5070%) hue-rotate(245deg) brightness(88%) contrast(115%);
+    }
+    
+ .test{
+	color:red;
+ }

@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Expense {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long Id; 
+	private long id; 
 	
 	@NotNull
 	@Size(min=3, max=40 , message="Expense name must be at 3-40 characters in lenght") 
@@ -54,6 +54,8 @@ public class Expense {
 	        this.updatedAt = new Date();
 	    }
 	
+	 
+	 
 	public Expense() {
 		
 	}
@@ -69,11 +71,11 @@ public class Expense {
 	
 	
 	public long getId() {
-		return Id;
+		return id;
 	}
-//	public void setId(long id) {
-//		Id = id;
-//	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getExpenseName() {
 		return expenseName;
 	}
@@ -101,15 +103,15 @@ public class Expense {
 	public Date getCreatedAt() {
 		return createdAt;
 	}
-//	public void setCreatedAt(Date createdAt) {
-//		this.createdAt = createdAt;
-//	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
-//	public void setUpdatedAt(Date updatedAt) {
-//		this.updatedAt = updatedAt;
-//	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 	
 	
 	
