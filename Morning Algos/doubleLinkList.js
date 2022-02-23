@@ -60,12 +60,12 @@ class DLL{
 
         removeFromBack(){
             if(this.tail==null){
-                return
+                return this;
             }
             if(this.head==this.tail){
                 this.head=null;
                 this.tail=null;
-                return;
+                return this;
             }
             else{
                 let newBack = this.tail.prev;
@@ -73,19 +73,19 @@ class DLL{
                 this.tail=newBack;
                 this.tail.next=null;
             }
-            
+            return this;
 
         }
 
         removeFromFront(){
 
             if(this.head==null){
-                return
+                return this;
             }
             if(this.head==this.tail){
                 this.head=null;
                 this.tail=null;
-                return;
+                return this;
             }
             else{
                 let newHead = this.head.next;
@@ -93,16 +93,61 @@ class DLL{
                 this.head=newHead;
                 this.head.prev=null;
             }
+            return this;
+        }
+
+
+        reverse(){
+            //check if the head and the tail are the same, if so, we can return b/c you cnat reverse if there is only one or no things
+            if(this.head==this.tail){
+                return this;
+            }
+
+            //create a temp variable to point to the node next to the head
+            let temp = this.head.next;
+
+            //create a runner variable and set it to be the head
+            let runner = this.head;
             
+            //while runner is pointing to a node
+            while(runner!=null){
+                //set the current node (runner)'s next property to be its previous property
+                runner.next = runner.prev;
 
+                //set the runners prev property to be the temp variable
+                runner.prev = temp;
 
+                //if the temp is null, then set runner = temp and temp = the next node from runner
+                if(temp!=null){
+                runner = temp;
+                temp = runner.next;
+                }
+                //otherwise if temp is null, set runner = temp
+                else{
+                    runner=temp;
+                }
+            }
+            //outside the while loop, set temp to be the head
+            temp = this.head;
+
+            //set the head to be the tail
+            this.head=this.tail;
+
+            //set the tail to be temp
+            this.tail = temp;
         }
 }
 
 mylist = new DLL();
 
-// mylist.addToBack(10).addToBack(20).addToBack(30);
-mylist.addToFront(9)
-mylist.removeFromBack();
-mylist.removeFromFront();
+mylist.addToBack(10).addToBack(20).addToBack(30).addToBack(40).addToBack(50);
+mylist.reverse();
 mylist.display();
+mylist.reverse();
+mylist.display();
+mylist.removeFromBack().removeFromBack();
+mylist.reverse();
+mylist.display();
+mylist.removeFromBack();
+mylist.display()
+// mylist.removeFromFront();
