@@ -39,7 +39,8 @@ crossorigin="anonymous"
           <th scope="col">Title</th>
           <th scope="col">Author</th>
           <th scope="col">Owners</th>
-          <th scope="col">Actions</th>
+          <th scope="col" class="col-2">Actions</th>
+          <th scope="col" > Rating</th>
         </tr>
       </thead>
       <tbody>
@@ -53,7 +54,23 @@ crossorigin="anonymous"
               ${ownerObj.userName} /
             </c:forEach>
             </td>
-            <td><a href="/books/delete/${bookObj.id}"> delete</a></td>
+            
+            <td>
+              <a href="/books/rate/${bookObj.id}">Add Rating</a>
+              <a href="/books/delete/${bookObj.id}"> delete</a>
+            </td>
+            <td>
+              <c:choose>
+                <c:when test='${bookObj.bookRating.size()==0}'>
+                  No Rating
+                </c:when>
+                <c:otherwise>
+                  ${bookObj.averageRating()}
+                </c:otherwise>
+              </c:choose>
+              
+            
+            </td>
         </tr>
       </c:forEach>
       </tbody>

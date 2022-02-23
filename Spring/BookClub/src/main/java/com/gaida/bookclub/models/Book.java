@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -59,6 +60,9 @@ public class Book {
 	
 	private List <User> owners; 
 	
+	@OneToMany(mappedBy="aBook",fetch=FetchType.LAZY)
+	private List<Rating> bookRating;
+	
 	//*********************************************************************
 	// Constructors for Book
 	//*********************************************************************
@@ -92,6 +96,20 @@ public class Book {
 	    @PreUpdate
 	    protected void onUpdate(){
 	        this.updatedAt = new Date();
+	    }
+	    
+	    
+//*********************************************************************
+//custom methods 
+//*********************************************************************	    
+	    
+	    public double averageRating() {
+	    	double sum=0;
+	    	for(int i = 0 ; i<bookRating.size(); i++) {
+	    		sum +=bookRating.get(i).getScore();
+	    	}
+	    	 double result = sum/bookRating.size();
+	    	 return result;
 	    }
 	    
     //*********************************************************************
@@ -151,6 +169,14 @@ public class Book {
 
 		public void setUpdatedAt(Date updatedAt) {
 			this.updatedAt = updatedAt;
+		}
+
+		public List<Rating> getBookRating() {
+			return bookRating;
+		}
+
+		public void setBookRating(List<Rating> bookRating) {
+			this.bookRating = bookRating;
 		}
 
 		

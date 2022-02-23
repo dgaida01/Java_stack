@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -74,6 +75,8 @@ public class User {
 		
 		private List <Book> books; 
 		
+		@OneToMany(mappedBy="owner",fetch=FetchType.LAZY)
+		private List<Rating> myRatings;
 		
 	//*********************************************************************
 	// Constructors for Book
@@ -147,6 +150,22 @@ public class User {
 			}
 			public void setUpdatedAt(Date updatedAt) {
 				this.updatedAt = updatedAt;
+			}
+
+			public List<Book> getBooks() {
+				return books;
+			}
+
+			public void setBooks(List<Book> books) {
+				this.books = books;
+			}
+
+			public List<Rating> getMyRatings() {
+				return myRatings;
+			}
+
+			public void setMyRatings(List<Rating> myRatings) {
+				this.myRatings = myRatings;
 			}
 			
 			

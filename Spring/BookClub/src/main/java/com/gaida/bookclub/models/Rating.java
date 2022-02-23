@@ -15,7 +15,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,9 +27,9 @@ public class Rating {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotBlank
-	@Min(value=1 , message = "rating must be at least 1")
-	@Max(value=10, message ="rating cannot be greater than 10")
+	@NotNull (message="Cannot be blank")
+	@Min(value=1 , message = "Rating must be at least 1")
+	@Max(value=10, message ="Rating cannot be greater than 10")
 	private double score;
 	
 	//*********************************************************************
@@ -66,7 +66,7 @@ public class Rating {
 		    @JoinColumn(name="book_id")
 		    private Book aBook;
 
-		    public Rating () {};
+		    public Rating () {}
 			public Rating(double score,	User owner, Book aBook) {
 				this.score = score;
 				this.owner = owner;

@@ -40,7 +40,7 @@ public class BookService {
 			
 		}
 		else {
-			System.out.println("I get here before bfreak");
+			
 			boolean newOwner=true;
 			List<User> allOwners = existingBook.getOwners();
 			for(int i=0; i <existingBook.getOwners().size();i++) {

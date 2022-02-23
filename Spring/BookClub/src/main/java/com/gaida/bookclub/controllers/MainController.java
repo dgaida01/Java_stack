@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gaida.bookclub.models.Book;
+import com.gaida.bookclub.models.Rating;
 import com.gaida.bookclub.models.User;
 import com.gaida.bookclub.services.BookService;
+import com.gaida.bookclub.services.RatingService;
 import com.gaida.bookclub.services.UserService;
 
 @Controller
@@ -28,6 +30,8 @@ public class MainController {
 	BookService bookService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	RatingService rateService;
 
 	//*****************************************************************
 	//Route to show all the books on the shelf to a current user
@@ -37,7 +41,7 @@ public class MainController {
 		if(session.getAttribute("userid")==null) {
 			return "redirect:/";
 		}
-		System.out.println("I GOT TO BOOOKS");
+		
 		
 		model.addAttribute("currentUser", this.userService.findByID((long)session.getAttribute("userid")));
 		List <Book> allBooks = this.bookService.findAllBooks();
@@ -65,6 +69,10 @@ public class MainController {
 	
 	@PostMapping("/books/create")
 	public String creatBook(@Valid @ModelAttribute("newBook") Book newBook,BindingResult result,HttpSession session ) {
+		if(session.getAttribute("userid")==null) {
+			return "redirect:/";
+		}
+		
 		
 		boolean bookAddedOK;
 		if(session.getAttribute("userid")==null) {
@@ -90,8 +98,10 @@ public class MainController {
 	//*****************************************************************
 
 	@GetMapping("/books/{id}/{userid}/details")
-	public String bookDetais(@PathVariable("id") long bookid, @PathVariable("userid") long userid, Model model) {
-		
+	public String bookDetais(@PathVariable("id") long bookid, @PathVariable("userid") long userid, Model model,HttpSession session) {
+		if(session.getAttribute("userid")==null) {
+			return "redirect:/";
+		}
 		User currentUser = this.userService.findByID(userid);
 		Book selectedBook = this.bookService.findById(bookid);
 		
@@ -117,11 +127,13 @@ public class MainController {
 	}
 
 	//*****************************************************************
-	//Route for deleting a book
+	//Routes for deleting a book
 	//*****************************************************************
 	 @RequestMapping("/books/delete/{id}")
-	 public String deleteBook(@PathVariable("id") long bookid) {
-		 
+	 public String deleteBook(@PathVariable("id") long bookid, HttpSession session) {
+		 if(session.getAttribute("userid")==null) {
+				return "redirect:/";
+			}
 		 this.bookService.deleteBookByID(bookid);
 		 
 		 return "redirect:/books";
@@ -129,9 +141,9 @@ public class MainController {
 	
 	 
 	 @RequestMapping("/trash/{id}")
-	 public String trash(@PathVariable("id") long userid) {
+	 public String trash(@PathVariable("id") long userid,HttpSession session) {
 		 
-//		 this.userService.deleteAccount(userid);
+		 this.userService.deleteAccount(userid);
 		List<Object[]> objList=  this.bookService.findAllBooksWithoutOwner();
 		Object [] obj = new Object[2];
 		
@@ -141,14 +153,49 @@ public class MainController {
 			BigInteger biggie= (BigInteger) obj[0];
 			long bookid=  biggie.longValue();
 			this.bookService.deleteBookByID(bookid);
-			System.out.println(bookid);
 			
 		}
 //		
+		session.invalidate();
 		
-		return "redirect:/books";
+		return "redirect:/";
 		 
+	 }
+	 
+//*****************************************************************
+//Routes for rating a book
+//*****************************************************************	 
+ 
+	 @GetMapping("books/rate/{id}")
+	 public String addRating(@PathVariable ("id") long bookid, Model model,HttpSession session) {
+		 if(session.getAttribute("userid")==null) {
+				return "redirect:/";
+			}
 		 
+		 Book theBook = this.bookService.findById(bookid);
+		 Rating theScore = new Rating();
+		 model.addAttribute("theScore", theScore);
+		 model.addAttribute("theBook", theBook);
+		 
+		 return "Rating.jsp";
+	 }
+	 
+	 @PostMapping("books/rate/{bookid}/create")
+	 public String createRating(@PathVariable("bookid") long bookid,@Valid @ModelAttribute("theScore") Rating theScore,BindingResult result ,HttpSession session, Model model) {
+		 
+		 Book theBook = this.bookService.findById(bookid);
+		 
+		 if(result.hasErrors()) {
+			 model.addAttribute("theBook", theBook);
+			 return "Rating.jsp";
+		 }
+		 
+		
+		 User currentUser= this.userService.findByID((long)session.getAttribute("userid"));
+		 theScore.setaBook(theBook);
+		 theScore.setOwner(currentUser);
+		 this.rateService.createRating(theScore);
+		 return "redirect:/books";
 	 }
 	 
 
