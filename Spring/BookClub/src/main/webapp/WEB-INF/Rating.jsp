@@ -27,7 +27,7 @@ crossorigin="anonymous"
 <h1>Add Rating to ${theBook.title}</h1>
 
 <form:form action="/books/rate/${theBook.id}/create" method="post" modelAttribute="theScore" style="width:200px">
-
+  <form:input type="hidden" value="${theBook.id}" path="aBook"/>
   <form:errors path="score" />
   <form:label path="score" >Rate from 1-10</form:label>
   <form:input path="score" type="number" step="any" class="form-control"/>
