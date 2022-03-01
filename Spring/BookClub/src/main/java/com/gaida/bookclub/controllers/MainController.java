@@ -192,7 +192,7 @@ public class MainController {
 		 
 		
 		 User currentUser= this.userService.findByID((long)session.getAttribute("userid"));
-		 theScore.setaBook(theBook);
+//		 theScore.setaBook(theBook);
 		 theScore.setOwner(currentUser);
 		 this.rateService.createRating(theScore);
 		 return "redirect:/books";
