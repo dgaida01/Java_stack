@@ -53,6 +53,28 @@ class BST{
         }
     }
 
+    contains(inputValue){   
+        let found = false;
+        let seeker= this.root;
+
+        while(seeker!=null){
+            if(seeker.value == inputValue){
+                found=true;
+                return found;
+            }
+            else if( seeker.value>inputValue){
+                seeker = seeker.left;
+
+            }
+            else{
+                seeker=seeker.right;
+            }
+        }
+        
+        return found;
+
+    }
+
     findMin(){
 
         if(this.root==null){
@@ -90,15 +112,37 @@ class BST{
        
     }
 
+    treeDepth(node=this.root){
+        let leftCount=0;
+        let rightCount=0; 
+        if(node==null){
+            return 0 ;
+        }
+
+        leftCount= 1 + this.treeDepth(node.left);
+        rightCount = 1 + this.treeDepth(node.right);
+
+        if(leftCount>rightCount){
+            return leftCount;
+        }
+        else{
+            return rightCount;
+        }
+
+    }
+
 
 }
 
 myTree = new BST();
-myTree.insert(100).insert(20).insert(120).insert(110).insert(100);
+myTree.insert(100).insert(20).insert(120).insert(110).insert(106).insert(50);
 
+console.log(myTree.contains(100));
 console.log(myTree);
-myTree.display();
-console.log("Showing Min Value");
-console.log( myTree.findMin());
-console.log("Showing Max Value");
-console.log( myTree.findMax());
+
+console.log(myTree.treeDepth());
+// myTree.display();
+// console.log("Showing Min Value");
+// console.log( myTree.findMin());
+// console.log("Showing Max Value");
+// console.log( myTree.findMax());
