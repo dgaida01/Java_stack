@@ -112,6 +112,21 @@ class BST{
        
     }
 
+    count(node=this.root){
+       
+        let total=0;
+        if(node==null){
+            return 0 ;
+        }
+
+        
+        total = 1 + this.count(node.left) + this.count(node.right);
+        return total;
+
+
+        
+    }
+
     treeDepth(node=this.root){
         let leftCount=0;
         let rightCount=0; 
@@ -131,16 +146,35 @@ class BST{
 
     }
 
+    isFull(node = this.root){
+
+        if(node ==null){
+            return true;
+        }
+          
+        if(this.isFull(node.left) && this.isFull(node.right)){
+            if(node.left ==null && node.right==null || node.left !=null && node.right!=null ){
+                return true;
+            }
+            else{       
+                
+                return false;
+            }
+        }
+
+    }
 
 }
 
 myTree = new BST();
-myTree.insert(100).insert(20).insert(120).insert(110).insert(106).insert(50);
+console.log(myTree.count());
+myTree.insert(100).insert(20).insert(120)
+//.insert(110).insert(106).insert(50).insert(35);
+console.log(myTree.isFull());
+// console.log(myTree.contains(100));
+// console.log(myTree);
 
-console.log(myTree.contains(100));
-console.log(myTree);
-
-console.log(myTree.treeDepth());
+// console.log(myTree.treeDepth());
 // myTree.display();
 // console.log("Showing Min Value");
 // console.log( myTree.findMin());
