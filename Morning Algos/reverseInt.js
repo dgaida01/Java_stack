@@ -36,4 +36,4 @@ function reverseInt(num){
     return result;
 }
 
-console.log(reverseInt(-3333333333)); 
+console.log(reverseInt(95754)); 
